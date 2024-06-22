@@ -74,10 +74,12 @@ jobs:
         name: log
         path: /tmp
     - name: Load Docker Image
-      run: ls -al /tmp
+      run: ls -al
+
+
 #    - name: Load Docker Image
 #      run: docker load -i /tmp/bookshop_image.tar
-
+#
 #    - name: Run Docker Container
 #      run: |
 #        docker run -d -p 5001:5001 --name bookshop_container bookshop:latest
