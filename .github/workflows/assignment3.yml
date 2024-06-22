@@ -32,6 +32,9 @@ jobs:
           context: bookshop
           file: bookshop/Dockerfile
 
+      - name: list files
+        run: ls -al
+
       - name: Check Build Status and Log
         run: |
           if [ "${{ steps.build_image.outcome }}" == "success" ]; then
@@ -47,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bookshop-image
-          path: /tmp/bookshop_image.tar
+          path: bookshop_image.tar
 
       - name: Upload Log Artifact
         uses: actions/upload-artifact@v4
