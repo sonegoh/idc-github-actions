@@ -224,4 +224,4 @@ def get_top_books():
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.getenv('BOOKSHOP_SERVICE_PORT', '8000')), debug=True)
+    app.run(host='0.0.0.0', port=int(os.getenv('BOOKSHOP_SERVICE_PORT', '5001')), debug=True)
