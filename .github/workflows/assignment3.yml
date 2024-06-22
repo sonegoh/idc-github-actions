@@ -72,7 +72,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: log
-        path: /tmp
+
     - name: Load Docker Image
       run: ls -al
 
