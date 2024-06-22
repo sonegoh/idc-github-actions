@@ -22,33 +22,32 @@ jobs:
           echo "Start time: $(date -Iminutes)" >> log.txt
           echo "Hadar Sonego" >> log.txt
 
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#
-#      - name: Build Docker Image
-#        id: build_image
-#        uses: docker/build-push-action@v5
-#        with:
-#          context: bookshop
-#          file: bookshop/Dockerfile
-#          outputs: type=docker,dest=/tmp/bookshop_image.tar
-#
-#      - name: Check Build Success
-#        run: |
-#          if [ -f /tmp/bookshop_image.tar ]; then
-#            echo "image successfully built" >> log.txt
-#          else
-#            echo "image not able to be built" >> log.txt
-#          fi
-#
-#      - name: Load Docker Image
-#        run: docker load -i /tmp/bookshop_image.tar
-#
-#      - name: Upload Artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: bookshop-image
-#          path: /tmp/bookshop_image.tar
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        id: build_image
+        uses: docker/build-push-action@v5
+        with:
+          context: bookshop
+          file: bookshop/Dockerfile
+
+      - name: Check Build Status and Log
+        run: |
+          if [ "${{ steps.build_image.outcome }}" == "success" ]; then
+            echo "image successfully built" >> log.txt
+          else
+            echo "image not able to be built" >> log.txt
+          fi
+
+      - name: Load Docker Image
+        run: docker load -i /tmp/bookshop_image.tar
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bookshop-image
+          path: /tmp/bookshop_image.tar
 
       - name: Upload Log Artifact
         uses: actions/upload-artifact@v4
@@ -62,11 +61,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-#    - name: Download Artifact
-#      uses: actions/download-artifact@v4
-#      with:
-#        name: bookshop-image
-#        path: /tmp
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: bookshop-image
+        path: /tmp
 
     - name: Download Log Artifact
       uses: actions/download-artifact@v4
@@ -76,35 +75,34 @@ jobs:
     - name: Load Docker Image
       run: ls -al
 
+    - name: Load Docker Image
+      run: docker load -i /tmp/bookshop_image.tar
 
-#    - name: Load Docker Image
-#      run: docker load -i /tmp/bookshop_image.tar
-#
-#    - name: Run Docker Container
-#      run: |
-#        docker run -d -p 5001:5001 --name bookshop_container bookshop:latest
-#      continue-on-error: true
-#
-#    - name: Wait for Container to be Ready
-#      run: |
-#        echo "Waiting for the container to be ready..."
-#        sleep 10
-#
-#    - name: Check Container Status
-#      run: |
-#        if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
-#          echo "Container up and running" >> log.txt
-#        else
-#          echo "Container failed to run" >> log.txt
-#        fi
-#
+    - name: Run Docker Container
+      run: |
+        docker run -d -p 5001:5001 --name bookshop_container bookshop:latest
+      continue-on-error: true
+
+    - name: Wait for Container to be Ready
+      run: |
+        echo "Waiting for the container to be ready..."
+        sleep 10
+
+    - name: Check Container Status
+      run: |
+        if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
+          echo "Container up and running" >> log.txt
+        else
+          echo "Container failed to run" >> log.txt
+        fi
+
 #    - name: Run Pytest
 #      id: run_pytest
 #      run: |
 #        pip install pytest
 #        pytest > pytest_results.txt
 #      continue-on-error: true
-#
+
 #    - name: Check Test Results
 #      run: |
 #        if grep -q "failed" pytest_results.txt; then
@@ -117,13 +115,13 @@ jobs:
 #      with:
 #        name: pytest-results
 #        path: pytest_results.txt
-#
-#    - name: Upload Log Artifact
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: log
-#        path: log.txt
-#
+
+    - name: Upload Log Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: log
+        path: log.txt
+
 #  query:
 #    runs-on: ubuntu-latest
 #    needs: test
