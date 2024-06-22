@@ -40,8 +40,8 @@ jobs:
             echo "image not able to be built" >> log.txt
           fi
 
-      - name: Load Docker Image
-        run: docker load -i /tmp/bookshop_image.tar
+#      - name: Load Docker Image
+#        run: docker load -i /tmp/bookshop_image.tar
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -72,7 +72,7 @@ jobs:
       with:
         name: log
 
-    - name: Load Docker Image
+    - name: list files
       run: ls -al
 
     - name: Load Docker Image
