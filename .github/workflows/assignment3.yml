@@ -74,7 +74,7 @@ jobs:
         name: log
         path: /tmp
     - name: Load Docker Image
-      run: la -al /tmp
+      run: ls -al /tmp
 #    - name: Load Docker Image
 #      run: docker load -i /tmp/bookshop_image.tar
 
