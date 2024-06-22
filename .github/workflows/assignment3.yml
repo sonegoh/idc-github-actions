@@ -77,7 +77,7 @@ jobs:
         name: log
 
     - name: list files
-      run: ls -al
+      run: ls -al /tmp
 
     - name: Load Docker Image
       run: docker load -i /tmp/bookshop_image.tar
@@ -125,6 +125,7 @@ jobs:
       with:
         name: log
         path: log.txt
+        overwrite: true
 
 #  query:
 #    runs-on: ubuntu-latest
