@@ -32,6 +32,7 @@ jobs:
           context: bookshop
           file: bookshop/Dockerfile
           outputs: type=docker,dest=/tmp/bookshop_image.tar
+          tags: bookshop_image:latest
 
       - name: list files
         run: ls -al
