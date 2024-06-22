@@ -83,9 +83,12 @@ jobs:
     - name: Load Docker Image
       run: docker load -i /tmp/bookshop_image.tar
 
+    - name: check images
+      run: docker image ls
+
     - name: Run Docker Container
       run: |
-        docker run -d -p 5001:5001 --name bookshop_container bookshop:latest
+        docker run -d -p 5001:5001 --name bookshop_container bookshop_image:latest
       continue-on-error: true
 
     - name: Wait for Container to be Ready
