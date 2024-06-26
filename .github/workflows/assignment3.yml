@@ -96,7 +96,7 @@ jobs:
           echo "MongoDB is ready"
 
       - name: Run Docker Container
-        run: docker run -d --name bookshop_container --network host bookshop_image:latest
+        run: docker run -dcc --name bookshop_container --network host bookshop_image:latest
 
       - name: Wait for Container to be Ready
         run: |
@@ -104,16 +104,15 @@ jobs:
           sleep 10
 
       - name: Check Container Status
+        if: always()
+        id: check_container_status
         run: |
           if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
             echo "Container up and running" >> log.txt
           else
             echo "Container failed to run" >> log.txt
+            exit 1
           fi
-
-      - name: curl to check if container is working
-        run: |
-          curl -X GET http://127.0.0.1:5001/books
 
       - name: Install pytest
         run: pip install pytest
@@ -139,6 +138,7 @@ jobs:
           path: assn3_test_results.txt
 
       - name: Upload Log Artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: log
