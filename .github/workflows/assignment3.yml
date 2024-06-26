@@ -36,6 +36,7 @@ jobs:
         run: ls -al
 
       - name: Check Build Status and Log
+        if: always()
         run: |
           if [ "${{ steps.build_image.outcome }}" == "success" ]; then
             echo "image successfully built" >> log.txt
@@ -53,6 +54,7 @@ jobs:
           path: /tmp/bookshop_image.tar
 
       - name: Upload Log Artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: log
