@@ -90,7 +90,7 @@ jobs:
         run: docker load -i /tmp/bookshop_image.tar
 
       - name: Run Docker Container
-        run: docker run -d -p 5001:5001 --name bookshop_container --link mongodb:mongodb bookshop_image:latest
+        run: docker run -d -p 5001:5001 --name bookshop_container bookshop_image:latest
 
       - name: Wait for Container to be Ready
         run: |
