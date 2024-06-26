@@ -1,11 +1,19 @@
 #!/bin/bash
 
-curl -X POST -H "Content-Type: application/json" -d '{"title": "title 3", "ISBN": "1526617161", "genre": "Science"}' http://127.0.0.1:8000/books
+curl -X POST -H "Content-Type: application/json" -d '{"title": "Adventures of Huckleberry Finn", "ISBN": "9780520343641", "genre": "Fiction"}' http://127.0.0.1:5001/books
 
-curl -X POST -H "Content-Type: application/json" -d '{"title": "title 2", "ISBN": "9781408855652", "genre": "Fiction"}' http://127.0.0.1:8000/books
-
-curl -X POST -H "Content-Type: application/json" -d '{"title": "title 3", "ISBN": "9780385050784", "genre": "Fiction"}' http://127.0.0.1:8000/books
+#curl -X POST -H "Content-Type: application/json" -d '{"title": "title 2", "ISBN": "9781408855652", "genre": "Fiction"}' http://127.0.0.1:5001/books
+#
+#curl -X POST -H "Content-Type: application/json" -d '{"title": "title 3", "ISBN": "9780385050784", "genre": "Fiction"}' http://127.0.0.1:5001/books
 curl -X GET http://127.0.0.1:80/books
+
+
+
+
+
+
+
+
 
 curl -X POST -H 'Content-Type: application/json' -d '{"value": 4}' http://127.0.0.1:80/ratings/666b27ac46cf80c1cba0c4fe/values
 curl -X POST -H 'Content-Type: application/json' -d '{"value": 4}' http://127.0.0.1:80/ratings/666b27ac46cf80c1cba0c4fe/values

@@ -10,7 +10,7 @@ books = []
 ratings = {}
 
 # MongoDB configuration
-mongo_client = MongoClient('mongodb://mongodb:27017/')
+mongo_client = MongoClient('mongodb://127.0.0.1:27017/')
 db = mongo_client['bookshop']
 books_collection = db['books']
 ratings_collection = db['ratings']
