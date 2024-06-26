@@ -4,7 +4,7 @@ FROM python:3.10
 WORKDIR /app
 
 # Install required packages
-RUN pip install Flask requests google-generativeai pymongo
+RUN pip install Flask requests google-generativeai pymongo33
 
 # Copy source code
 COPY app /app

@@ -17,7 +17,7 @@ jobs:
       - name: Log Start Time
         id: log_start_time
         run: |
-          echo "Start time: $(date -Iminutes)" >> log.txt
+          echo "$(date -Iminutes)" >> log.txt
           echo "Hadar Sonego" >> log.txt
 
       - name: Set up Docker Buildx
