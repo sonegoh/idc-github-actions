@@ -59,7 +59,7 @@ def test_get_book1(book1_id):
     data = response.json()
 
     assert response.status_code == 200
-    assert data["title"] == "Adventures of Huckleberry Finn"
+    assert data["title"] == "Adventures of Huckleberry Finnk"
 
 def test_get_all_books():
     response = requests.get(f"{BASE_URL}/books")
