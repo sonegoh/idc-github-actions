@@ -62,11 +62,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
 
     steps:
       - name: Checkout
@@ -88,9 +83,20 @@ jobs:
 
       - name: Load Docker Image
         run: docker load -i /tmp/bookshop_image.tar
+      - name: Run MongoDB Container
+        run: docker run -d --name mongodb --network host mongo:latest
+
+      - name: Wait for MongoDB to be Ready
+        run: |
+          echo "Waiting for MongoDB to be ready..."
+          while ! nc -z localhost 27017; do
+            echo "MongoDB is not ready yet"
+            sleep 1
+          done
+          echo "MongoDB is ready"
 
       - name: Run Docker Container
-        run: docker run -d -p 5001:5001 --name bookshop_container bookshop_image:latest
+        run: docker run -d --name bookshop_container --network host bookshop_image:latest
 
       - name: Wait for Container to be Ready
         run: |
@@ -104,6 +110,7 @@ jobs:
           else
             echo "Container failed to run" >> log.txt
           fi
+
       - name: curl to check if container is working
         run: |
           curl -X GET http://127.0.0.1:5001/books           
