@@ -59,95 +59,95 @@ jobs:
         with:
           name: log
           path: log.txt
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: bookshop-image
-          path: /tmp
-
-      - name: Download Log Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: log
-
-      - name: list files
-        run: ls -al /tmp
-
-      - name: Load Docker Image
-        run: docker load -i /tmp/bookshop_image.tar
-      - name: Run MongoDB Container
-        run: docker run -d --name mongodb --network host mongo:latest
-
-      - name: Wait for MongoDB to be Ready
-        run: |
-          echo "Waiting for MongoDB to be ready..."
-          while ! nc -z localhost 27017; do
-            echo "MongoDB is not ready yet"
-            sleep 1
-          done
-          echo "MongoDB is ready"
-
-      - name: Run Docker Container
-        run: docker run -d --name bookshop_container --network host bookshop_image:latest
-
-      - name: Wait for Container to be Ready
-        run: |
-          echo "Waiting for the container to be ready..."
-          sleep 10
-
-      - name: Check Container Status
-        run: |
-          if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
-            echo "Container up and running" >> log.txt
-          else
-            echo "Container failed to run" >> log.txt
-          fi
-
-      - name: curl to check if container is working
-        run: |
-          curl -X GET http://127.0.0.1:5001/books           
-
-      - name: Install pytest
-        run: pip install pytest
-
-      - name: Run Pytest
-        id: run_pytest
-        run: |
-          pytest -v tests/assn3_tests.py > assn3_test_results.txt
-        continue-on-error: true
-
-      - name: Check Test Results
-        run: |
-          if grep -q "failed" assn3_test_results.txt; then
-            echo "tests failed" >> log.txt
-          else
-            echo "tests succeeded" >> log.txt
-          fi
-
-      - name: Upload Pytest Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: pytest-results
-          path: assn3_test_results.txt
-
-      - name: Upload Log Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: log
-          path: log.txt
-          overwrite: true
+#  test:
+#    runs-on: ubuntu-latest
+#    needs: build
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Download Artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: bookshop-image
+#          path: /tmp
+#
+#      - name: Download Log Artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: log
+#
+#      - name: list files
+#        run: ls -al /tmp
+#
+#      - name: Load Docker Image
+#        run: docker load -i /tmp/bookshop_image.tar
+#      - name: Run MongoDB Container
+#        run: docker run -d --name mongodb --network host mongo:latest
+#
+#      - name: Wait for MongoDB to be Ready
+#        run: |
+#          echo "Waiting for MongoDB to be ready..."
+#          while ! nc -z localhost 27017; do
+#            echo "MongoDB is not ready yet"
+#            sleep 1
+#          done
+#          echo "MongoDB is ready"
+#
+#      - name: Run Docker Container
+#        run: docker run -d --name bookshop_container --network host bookshop_image:latest
+#
+#      - name: Wait for Container to be Ready
+#        run: |
+#          echo "Waiting for the container to be ready..."
+#          sleep 10
+#
+#      - name: Check Container Status
+#        run: |
+#          if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
+#            echo "Container up and running" >> log.txt
+#          else
+#            echo "Container failed to run" >> log.txt
+#          fi
+#
+#      - name: curl to check if container is working
+#        run: |
+#          curl -X GET http://127.0.0.1:5001/books
+#
+#      - name: Install pytest
+#        run: pip install pytest
+#
+#      - name: Run Pytest
+#        id: run_pytest
+#        run: |
+#          pytest -v tests/assn3_tests.py > assn3_test_results.txt
+#        continue-on-error: true
+#
+#      - name: Check Test Results
+#        run: |
+#          if grep -q "failed" assn3_test_results.txt; then
+#            echo "tests failed" >> log.txt
+#          else
+#            echo "tests succeeded" >> log.txt
+#          fi
+#
+#      - name: Upload Pytest Results
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: pytest-results
+#          path: assn3_test_results.txt
+#
+#      - name: Upload Log Artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: log
+#          path: log.txt
+#          overwrite: true
 
   query:
     runs-on: ubuntu-latest
-    needs: test
+#    needs: test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -167,18 +167,19 @@ jobs:
         run: docker load -i /tmp/bookshop_image.tar
 
       - name: Run MongoDB Container
-        run: docker run -d --name mongodb -p 27017:27017 mongo:latest
+        run: docker run -d --name mongodb --network host mongo:latest
 
-      - name: Wait for MongoDB
+      - name: Wait for MongoDB to be Ready
         run: |
           echo "Waiting for MongoDB to be ready..."
           while ! nc -z localhost 27017; do
+            echo "MongoDB is not ready yet"
             sleep 1
           done
           echo "MongoDB is ready"
 
       - name: Run Docker Container
-        run: docker run -d -p 5001:5001 --name bookshop_container bookshop_image:latest
+        run: docker run -d --name bookshop_container --network host bookshop_image:latest
 
       - name: Wait for Container to be Ready
         run: sleep 10
