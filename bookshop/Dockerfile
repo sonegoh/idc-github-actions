@@ -9,8 +9,8 @@ RUN pip install Flask requests google-generativeai pymongo
 # Copy source code
 COPY app /app
 
-# Expose port 8000
-EXPOSE 8000
+# Expose port 5001
+EXPOSE 5001
 
 # Command to run the application
 CMD ["python", "bookshop.py"]

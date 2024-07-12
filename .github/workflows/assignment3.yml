@@ -2,7 +2,7 @@ name: assignment3
 
 on:
   push:
-    branches: [ ci ]
+    branches: [ main ]
   pull_request:
   workflow_dispatch:
 
