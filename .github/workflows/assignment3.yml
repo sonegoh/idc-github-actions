@@ -122,6 +122,7 @@ jobs:
         run: |
           if grep -q "failed" assn3_test_results.txt; then
             echo "tests failed" >> log.txt
+            exit 1
           else
             echo "tests succeeded" >> log.txt
           fi
