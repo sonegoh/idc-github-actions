@@ -103,10 +103,8 @@ jobs:
         run: |
           if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
             echo "Container up and running" >> log.txt
-            echo "::set-output name=status::running"
           else
             echo "Container failed to run" >> log.txt
-            echo "::set-output name=status::failed"
             exit 1
           fi
 
@@ -115,11 +113,12 @@ jobs:
 
       - name: Run Pytest
         id: run_pytest
+        continue-on-error: true
         run: |
           pytest -v tests/assn3_tests.py > assn3_test_results.txt
 
       - name: Check Test Results
-        if: steps.check_container_status.outputs.status == 'running'
+        if: steps.check_container_status.outcome == 'success'
         run: |
           if grep -q "failed" assn3_test_results.txt; then
             echo "tests failed" >> log.txt
