@@ -90,7 +90,7 @@ jobs:
           echo "MongoDB is ready"
 
       - name: Run Docker Container
-        run: docker run -d --name bookshop_container --network host bookshop_image:latest
+        run: docker run -d --name bookshop_container --network host bookshop_image:latesty
 
       - name: Wait for Container to be Ready
         run: |
