@@ -103,8 +103,10 @@ jobs:
         run: |
           if [ $(docker inspect -f '{{.State.Running}}' bookshop_container) = "true" ]; then
             echo "Container up and running" >> log.txt
+            echo "CONTAINER_STATUS=running" >> $GITHUB_ENV
           else
             echo "Container failed to run" >> log.txt
+            echo "CONTAINER_STATUS=failed" >> $GITHUB_ENV
             exit 1
           fi
 
@@ -117,7 +119,7 @@ jobs:
           pytest -v tests/assn3_tests.py > assn3_test_results.txt
 
       - name: Check Test Results
-        if: always()
+        if: env.CONTAINER_STATUS == 'running'
         run: |
           if grep -q "failed" assn3_test_results.txt; then
             echo "tests failed" >> log.txt
