@@ -156,6 +156,9 @@ jobs:
           path: /tmp
 
       - name: Load Docker Image
+        run: docker ps -a
+
+      - name: Load Docker Image
         run: docker load -i /tmp/bookshop_image.tar
 
       - name: Run MongoDB Container
