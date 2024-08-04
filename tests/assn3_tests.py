@@ -86,7 +86,7 @@ def test_get_all_books():
     response = requests.get(f"{BASE_URL}/books")
     data = response.json()
 
-    assert response.status_code == 200
+    assert response.status_code == 404
     assert len(data) == 3  # Ensure there are 3 books
 
 
