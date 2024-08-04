@@ -4,7 +4,7 @@ FROM python:3.10
 WORKDIR /app
 
 # Install required packages
-# RUN pip install Flask requests google-generativeai pymongo
+RUN pip install Flask requests google-generativeai pymongo
 
 # Copy source code
 COPY app /app
@@ -13,4 +13,4 @@ COPY app /app
 EXPOSE 5001
 
 # Command to run the application
-# CMD ["python", "bookshop.py"]
+CMD ["python", "bookshop.py"]
