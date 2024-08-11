@@ -1,7 +1,5 @@
-?genre=Fiction
-?genre=Science+Fiction
-?ISBN=9780520343641
-?ISBN=9780385050784
-?title=Adventures+of+Huckleberry+Finn
-?title=I,+Robot
-?publishedDate=2016-06-13
+?authors=Mark Twain
+?ISBN=9780553293364
+?genre=Science Fiction
+?genre=Science Fiction&title=I, Robot
+?publishedDate=1948
